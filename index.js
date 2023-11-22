@@ -23,6 +23,11 @@ if (cluster.isMaster) {
     res.send('Hi there!')
   })
 
+  // non blocked route to compare load times while utilizing clusters
+  app.get('/fast', (req, res) => {
+    res.send('This was fast!');
+  })
+
   app.listen(3000);
 }
 
