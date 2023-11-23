@@ -1,14 +1,14 @@
+process.env.UV_THREADPOOL_SIZE = 1;
+
 const cluster = require('cluster')
 const express = require('express')
+const crypto = require('crypto')
 
 const app = express()
 
 // Is the file being executed in the master mode?
 if (cluster.isMaster) {
   // Cause index.js to be executed *again* but in the child mode
-  cluster.fork()
-  cluster.fork()
-  cluster.fork()
   cluster.fork()
 } else {
   // i'm a child, i'm going to act like a server and do nothing else
@@ -19,8 +19,9 @@ if (cluster.isMaster) {
   }
 
   app.get('/', (_req, res) => {
-    doWork(5000); // <- blocking operation
-    res.send('Hi there!')
+    crypto.pbkdf2('a', 'b', 400000, 512, 'sha512', () => {
+      res.send('Hi there!')
+    })
   })
 
   // non blocked route to compare load times while utilizing clusters
