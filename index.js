@@ -10,6 +10,11 @@ const app = express()
 if (cluster.isMaster) {
   // Cause index.js to be executed *again* but in the child mode
   cluster.fork()
+  cluster.fork()
+  cluster.fork()
+  cluster.fork()
+  cluster.fork()
+  cluster.fork()
 } else {
   // i'm a child, i'm going to act like a server and do nothing else
   function doWork(duration) {
