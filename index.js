@@ -9,6 +9,11 @@ const app = express()
 // Is the file being executed in the master mode?
 if (cluster.isMaster) {
   // Cause index.js to be executed *again* but in the child mode
+
+  // Use forks number same as cores in your CPU for optimization purposes
+  // I'm using M1 cpu with 8 cores, so I will use 8 forks
+  cluster.fork()
+  cluster.fork()
   cluster.fork()
   cluster.fork()
   cluster.fork()
