@@ -1,20 +1,16 @@
 const express = require('express')
-const crypto = require('crypto')
-
-// test
 const app = express()
-
-// i'm a child, i'm going to act like a server and do nothing else
-function doWork(duration) {
-  const start = Date.now();
-
-  while (Date.now() - start < duration) {}
-}
+const { Worker } = require('worker_threads')
 
 app.get('/', (_req, res) => {
-  crypto.pbkdf2('a', 'b', 400000, 512, 'sha512', () => {
-    res.send('Hi there!')
+  const worker = new Worker('./worker.js');
+
+  worker.on('message', function(message) {
+    console.log(message)
+    res.send('' + message)
   })
+
+  worker.postMessage('start!')
 })
 
 // non blocked route to compare load times while utilizing clusters
