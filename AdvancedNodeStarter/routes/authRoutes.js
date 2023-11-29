@@ -12,7 +12,8 @@ module.exports = app => {
     '/auth/google/callback',
     passport.authenticate('google'),
     (req, res) => {
-      res.redirect('/blogs');
+      console.log('redirecting to localhost:3000/blogs')
+      res.redirect('localhost:3000/blogs');
     }
   );
 
